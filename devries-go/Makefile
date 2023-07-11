@@ -25,18 +25,18 @@ clean:
 
 fmt:
 	@echo "===> Formatting"
-	go fmt .
+	go fmt ./...
 
 lint:
 	@echo "===> Linting"
-	golint .
+	go vet ./...
 
 test: test-lexer test-ast test-parser
 	@echo "===> Testing EVERYTHING"
 
 test-lexer:
 	@echo "===> Testing lexer"
-	go test .
+	go test ./...
 	
 test-ast:
 	@echo "===> Testing AST"

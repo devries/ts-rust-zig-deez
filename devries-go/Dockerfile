@@ -5,13 +5,12 @@ FROM ubuntu:latest
 WORKDIR /deez
 
 # Basic system-level dependencies
-RUN apt-get update && apt install -y make git curl && \
-    # TODO: these are examplary, change to those you need:
-    apt install -y software-properties-common build-essential && \
-    add-apt-repository --yes ppa:neovim-ppa/unstable && \
-    apt-get install -y neovim
+RUN apt-get update && apt install -y make git curl 
 
-# TODO: Add extra dependencies, if needed
+RUN curl -L -O  https://go.dev/dl/go1.20.5.linux-amd64.tar.gz && \
+    tar xfz go1.20.5.linux-amd64.tar.gz -C /
+
+ENV PATH="${PATH}:/go/bin"
 
 # Commands for docker run
 CMD make clean && \

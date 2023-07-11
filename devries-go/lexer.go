@@ -9,33 +9,19 @@ import (
 type TokenType int
 
 const (
-	// ILLEGAL Token
 	ILLEGAL TokenType = iota
-	// EOF = end of file
 	EOF
-	// IDENT = identifier
 	IDENT
-	// INT = integer
 	INT
-	// ASSIGN = Assignment operator
 	ASSIGN
-	// PLUS = Plus operator
 	PLUS
-	// COMMA = Comma otoken
 	COMMA
-	// SEMICOLON = semicolon token
 	SEMICOLON
-	// LPAREN = Left parenthesis
 	LPAREN
-	// RPAREN = Right parenthesis
 	RPAREN
-	// LBRACE = Left brace
 	LBRACE
-	// RBRACE = Right brace
 	RBRACE
-	// FUNCTION = fn keyword
 	FUNCTION
-	// LET = let keyword
 	LET
 )
 
