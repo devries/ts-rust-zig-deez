@@ -11,18 +11,37 @@ type TokenType int
 const (
 	ILLEGAL TokenType = iota
 	EOF
+
 	IDENT
 	INT
+
 	ASSIGN
 	PLUS
+	MINUS
+	BANG
+	ASTERISK
+	SLASH
+
+	LT
+	GT
+	EQ
+	NOT_EQ
+
 	COMMA
 	SEMICOLON
+
 	LPAREN
 	RPAREN
 	LBRACE
 	RBRACE
+
 	FUNCTION
 	LET
+	TRUE
+	FALSE
+	IF
+	ELSE
+	RETURN
 )
 
 func (t TokenType) String() string {
@@ -39,6 +58,22 @@ func (t TokenType) String() string {
 		return "="
 	case PLUS:
 		return "+"
+	case MINUS:
+		return "-"
+	case BANG:
+		return "!"
+	case ASTERISK:
+		return "*"
+	case SLASH:
+		return "/"
+	case LT:
+		return "<"
+	case GT:
+		return ">"
+	case EQ:
+		return "=="
+	case NOT_EQ:
+		return "!="
 	case COMMA:
 		return ","
 	case SEMICOLON:
@@ -55,14 +90,29 @@ func (t TokenType) String() string {
 		return "FUNCTION"
 	case LET:
 		return "LET"
+	case TRUE:
+		return "TRUE"
+	case FALSE:
+		return "FALSE"
+	case IF:
+		return "IF"
+	case ELSE:
+		return "ELSE"
+	case RETURN:
+		return "RETURN"
 	default:
 		return "Unknown"
 	}
 }
 
 var keywords = map[string]TokenType{
-	"fn":  FUNCTION,
-	"let": LET,
+	"fn":     FUNCTION,
+	"let":    LET,
+	"true":   TRUE,
+	"false":  FALSE,
+	"if":     IF,
+	"else":   ELSE,
+	"return": RETURN,
 }
 
 // Token is a struct for a token.
@@ -109,7 +159,12 @@ func (l *Lexer) NextToken() Token {
 
 	switch l.ch {
 	case '=':
-		tok = Token{ASSIGN, "="}
+		if l.peekChar() == '=' {
+			l.readChar()
+			tok = Token{EQ, "=="}
+		} else {
+			tok = Token{ASSIGN, "="}
+		}
 	case ';':
 		tok = Token{SEMICOLON, ";"}
 	case '(':
@@ -120,6 +175,23 @@ func (l *Lexer) NextToken() Token {
 		tok = Token{COMMA, ","}
 	case '+':
 		tok = Token{PLUS, "+"}
+	case '-':
+		tok = Token{MINUS, "-"}
+	case '!':
+		if l.peekChar() == '=' {
+			l.readChar()
+			tok = Token{NOT_EQ, "!="}
+		} else {
+			tok = Token{BANG, "!"}
+		}
+	case '*':
+		tok = Token{ASTERISK, "*"}
+	case '/':
+		tok = Token{SLASH, "/"}
+	case '<':
+		tok = Token{LT, "<"}
+	case '>':
+		tok = Token{GT, ">"}
 	case '{':
 		tok = Token{LBRACE, "{"}
 	case '}':
@@ -166,6 +238,10 @@ func (l *Lexer) skipWhitespace() {
 	for unicode.IsSpace(l.ch) {
 		l.readChar()
 	}
+}
+
+func (l *Lexer) peekChar() rune {
+	return l.input[l.readPosition]
 }
 
 func isLetter(r rune) bool {
