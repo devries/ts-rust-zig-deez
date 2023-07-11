@@ -12,6 +12,9 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+# Generated files in go-devries
+lexer/tokentype_string.go
+
 # Mono auto generated files
 mono_crash.*
 

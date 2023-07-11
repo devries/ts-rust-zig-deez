@@ -21,20 +21,20 @@ docker-ready: docker-build
 
 clean:
 	@echo "===> Cleaning"
-	# TODO: replace this line with your cleaning commands
+	rm lexer/tokentype_string.go || true
 
 fmt:
 	@echo "===> Formatting"
 	go fmt ./...
 
-lint:
+lint: lexer/tokentype_string.go
 	@echo "===> Linting"
 	go vet ./...
 
 test: test-lexer test-ast test-parser
 	@echo "===> Testing EVERYTHING"
 
-test-lexer:
+test-lexer: lexer/tokentype_string.go
 	@echo "===> Testing lexer"
 	go test ./lexer
 	
@@ -46,3 +46,5 @@ test-parser:
 	@echo "===> Testing parser"
 	# TODO: replace this line with your parser testing commands
 
+lexer/tokentype_string.go:
+	go generate monkey/lexer

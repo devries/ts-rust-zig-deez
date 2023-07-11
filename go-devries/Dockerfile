@@ -9,8 +9,9 @@ RUN apt-get update && apt install -y make git curl
 
 RUN curl -L -O  https://go.dev/dl/go1.20.5.linux-amd64.tar.gz && \
     tar xfz go1.20.5.linux-amd64.tar.gz -C /
-
 ENV PATH="${PATH}:/go/bin"
+
+RUN GOPATH=/go go install golang.org/x/tools/cmd/stringer@latest
 
 # Commands for docker run
 CMD make clean && \

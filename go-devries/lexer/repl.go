@@ -20,7 +20,7 @@ func RunRepl(in io.Reader, out io.Writer) {
 		line := scanner.Text()
 		l := NewLexer(line)
 
-		for tok := l.NextToken(); tok.Type != EOF; tok = l.NextToken() {
+		for tok := l.NextToken(); tok.Type != Eof; tok = l.NextToken() {
 			fmt.Fprintf(writer, "%+v\n", tok)
 		}
 		fmt.Fprintf(writer, PROMPT)

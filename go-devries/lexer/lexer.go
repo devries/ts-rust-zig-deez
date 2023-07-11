@@ -5,114 +5,55 @@ import (
 	"unicode"
 )
 
+//go:generate stringer -type=TokenType
+
 // TokenType is the type of token.
 type TokenType int
 
 const (
-	ILLEGAL TokenType = iota
-	EOF
+	Illegal TokenType = iota
+	Eof
 
-	IDENT
-	INT
+	Ident
+	Int
 
-	ASSIGN
-	PLUS
-	MINUS
-	BANG
-	ASTERISK
-	SLASH
+	Assign
+	Plus
+	Minus
+	Bang
+	Asterisk
+	ForwardSlash
 
-	LT
-	GT
-	EQ
-	NOT_EQ
+	LessThan
+	GreaterThan
+	Equal
+	NotEqual
 
-	COMMA
-	SEMICOLON
+	Comma
+	Semicolon
 
-	LPAREN
-	RPAREN
-	LBRACE
-	RBRACE
+	LParen
+	RParen
+	LSquirly
+	RSquirly
 
-	FUNCTION
-	LET
-	TRUE
-	FALSE
-	IF
-	ELSE
-	RETURN
+	Function
+	Let
+	True
+	False
+	If
+	Else
+	Return
 )
 
-func (t TokenType) String() string {
-	switch t {
-	case ILLEGAL:
-		return "ILLEGAL"
-	case EOF:
-		return "EOF"
-	case IDENT:
-		return "IDENT"
-	case INT:
-		return "INT"
-	case ASSIGN:
-		return "="
-	case PLUS:
-		return "+"
-	case MINUS:
-		return "-"
-	case BANG:
-		return "!"
-	case ASTERISK:
-		return "*"
-	case SLASH:
-		return "/"
-	case LT:
-		return "<"
-	case GT:
-		return ">"
-	case EQ:
-		return "=="
-	case NOT_EQ:
-		return "!="
-	case COMMA:
-		return ","
-	case SEMICOLON:
-		return ";"
-	case LPAREN:
-		return "("
-	case RPAREN:
-		return ")"
-	case LBRACE:
-		return "{"
-	case RBRACE:
-		return "}"
-	case FUNCTION:
-		return "FUNCTION"
-	case LET:
-		return "LET"
-	case TRUE:
-		return "TRUE"
-	case FALSE:
-		return "FALSE"
-	case IF:
-		return "IF"
-	case ELSE:
-		return "ELSE"
-	case RETURN:
-		return "RETURN"
-	default:
-		return "Unknown"
-	}
-}
-
 var keywords = map[string]TokenType{
-	"fn":     FUNCTION,
-	"let":    LET,
-	"true":   TRUE,
-	"false":  FALSE,
-	"if":     IF,
-	"else":   ELSE,
-	"return": RETURN,
+	"fn":     Function,
+	"let":    Let,
+	"true":   True,
+	"false":  False,
+	"if":     If,
+	"else":   Else,
+	"return": Return,
 }
 
 // Token is a struct for a token.
@@ -161,43 +102,43 @@ func (l *Lexer) NextToken() Token {
 	case '=':
 		if l.peekChar() == '=' {
 			l.readChar()
-			tok = Token{EQ, "=="}
+			tok = Token{Equal, "=="}
 		} else {
-			tok = Token{ASSIGN, "="}
+			tok = Token{Assign, "="}
 		}
 	case ';':
-		tok = Token{SEMICOLON, ";"}
+		tok = Token{Semicolon, ";"}
 	case '(':
-		tok = Token{LPAREN, "("}
+		tok = Token{LParen, "("}
 	case ')':
-		tok = Token{RPAREN, ")"}
+		tok = Token{RParen, ")"}
 	case ',':
-		tok = Token{COMMA, ","}
+		tok = Token{Comma, ","}
 	case '+':
-		tok = Token{PLUS, "+"}
+		tok = Token{Plus, "+"}
 	case '-':
-		tok = Token{MINUS, "-"}
+		tok = Token{Minus, "-"}
 	case '!':
 		if l.peekChar() == '=' {
 			l.readChar()
-			tok = Token{NOT_EQ, "!="}
+			tok = Token{NotEqual, "!="}
 		} else {
-			tok = Token{BANG, "!"}
+			tok = Token{Bang, "!"}
 		}
 	case '*':
-		tok = Token{ASTERISK, "*"}
+		tok = Token{Asterisk, "*"}
 	case '/':
-		tok = Token{SLASH, "/"}
+		tok = Token{ForwardSlash, "/"}
 	case '<':
-		tok = Token{LT, "<"}
+		tok = Token{LessThan, "<"}
 	case '>':
-		tok = Token{GT, ">"}
+		tok = Token{GreaterThan, ">"}
 	case '{':
-		tok = Token{LBRACE, "{"}
+		tok = Token{LSquirly, "{"}
 	case '}':
-		tok = Token{RBRACE, "}"}
+		tok = Token{RSquirly, "}"}
 	case 0:
-		tok = Token{EOF, ""}
+		tok = Token{Eof, ""}
 	default:
 		if isLetter(l.ch) {
 			literal := l.readIdentifier()
@@ -205,10 +146,10 @@ func (l *Lexer) NextToken() Token {
 			return tok
 		} else if isDigit(l.ch) {
 			number := l.readNumber()
-			tok = Token{INT, number}
+			tok = Token{Int, number}
 			return tok
 		} else {
-			tok = Token{ILLEGAL, string(l.ch)}
+			tok = Token{Illegal, string(l.ch)}
 		}
 	}
 
@@ -258,5 +199,5 @@ func LookupIdent(ident string) TokenType {
 		return tt
 	}
 
-	return IDENT
+	return Ident
 }
