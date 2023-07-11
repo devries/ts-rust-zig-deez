@@ -36,7 +36,7 @@ test: test-lexer test-ast test-parser
 
 test-lexer:
 	@echo "===> Testing lexer"
-	go test ./...
+	go test ./lexer
 	
 test-ast:
 	@echo "===> Testing AST"

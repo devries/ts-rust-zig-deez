@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"monkey"
+	"monkey/lexer"
 )
 
 func main() {
 	fmt.Println("Don't look now, there's a monkey on your back!")
-	monkey.RunRepl(os.Stdin, os.Stdout)
+	lexer.RunRepl(os.Stdin, os.Stdout)
 }
