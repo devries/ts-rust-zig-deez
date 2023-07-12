@@ -38,13 +38,13 @@ test-lexer: lexer/tokentype_string.go
 	@echo "===> Testing lexer"
 	go test ./lexer
 	
-test-ast:
+test-ast: lexer/tokentype_string.go
 	@echo "===> Testing AST"
-	# TODO: replace this line with your AST testing commands
+	go test ./ast
 
-test-parser:
+test-parser: lexer/tokentype_string.go
 	@echo "===> Testing parser"
-	# TODO: replace this line with your parser testing commands
-
+	go test ./parser
+	
 lexer/tokentype_string.go: lexer/lexer.go
 	go generate monkey/lexer
