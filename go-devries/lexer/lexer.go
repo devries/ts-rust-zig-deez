@@ -78,11 +78,11 @@ type Lexer struct {
 // NewLexer creates a new lexer from a string input.
 func NewLexer(input string) *Lexer {
 	l := &Lexer{input: []rune(input)}
-	l.read()
+	l.readChar()
 	return l
 }
 
-func (l *Lexer) read() {
+func (l *Lexer) readChar() {
 	if l.readPosition >= len(l.input) {
 		l.ch = 0
 	} else {
@@ -101,7 +101,7 @@ func (l *Lexer) NextToken() Token {
 	switch l.ch {
 	case '=':
 		if l.peek() == '=' {
-			l.read()
+			l.readChar()
 			tok = Token{Equal, "=="}
 		} else {
 			tok = Token{Assign, "="}
@@ -120,7 +120,7 @@ func (l *Lexer) NextToken() Token {
 		tok = Token{Minus, "-"}
 	case '!':
 		if l.peek() == '=' {
-			l.read()
+			l.readChar()
 			tok = Token{NotEqual, "!="}
 		} else {
 			tok = Token{Bang, "!"}
@@ -153,7 +153,7 @@ func (l *Lexer) NextToken() Token {
 		}
 	}
 
-	l.read()
+	l.readChar()
 
 	return tok
 }
@@ -161,7 +161,7 @@ func (l *Lexer) NextToken() Token {
 func (l *Lexer) readIdentifier() string {
 	position := l.position
 	for isLetter(l.ch) {
-		l.read()
+		l.readChar()
 	}
 	return string(l.input[position:l.position])
 }
@@ -169,7 +169,7 @@ func (l *Lexer) readIdentifier() string {
 func (l *Lexer) readNumber() string {
 	position := l.position
 	for isDigit(l.ch) {
-		l.read()
+		l.readChar()
 	}
 
 	return string(l.input[position:l.position])
@@ -177,7 +177,7 @@ func (l *Lexer) readNumber() string {
 
 func (l *Lexer) skipWhitespace() {
 	for unicode.IsSpace(l.ch) {
-		l.read()
+		l.readChar()
 	}
 }
 
