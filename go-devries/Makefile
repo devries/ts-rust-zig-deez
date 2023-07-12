@@ -46,5 +46,5 @@ test-parser:
 	@echo "===> Testing parser"
 	# TODO: replace this line with your parser testing commands
 
-lexer/tokentype_string.go:
+lexer/tokentype_string.go: lexer/lexer.go
 	go generate monkey/lexer
